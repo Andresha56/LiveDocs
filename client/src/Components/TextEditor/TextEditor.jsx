@@ -1,33 +1,44 @@
-import React, { useEffect, useState, useRef } from 'react';
-import 'react-quill/dist/quill.snow.css';
-import ReactQuill from 'react-quill';
-import { socket } from '../../Socket';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState, useRef } from "react";
+import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
+import { socket } from "../../Socket";
+import { useLocation } from "react-router-dom";
 import "./TextEditor.css";
-import User from '../Drawer/Users';
-
+import User from "../Drawer/Users";
 
 function TextEditor() {
-    const [editorValue, setEditorValue] = useState('');
+    const [editorValue, setEditorValue] = useState("");
+    const [activeUsers, setActiveUsers] = useState([]);
+
     const [readOnly, setReadOnly] = useState(true);
     const location = useLocation();
     const editorRef = useRef(null);
-
     // ----handle---changes----in--editor---
     const handleEditorChange = (content, delta, source) => {
-        if (source === 'user') {
+        if (source === "user") {
             socket.emit("text-change", delta);
         }
         setEditorValue(content);
     };
 
+    useEffect(() => {
+        const handleActiveUsers = (users) => {
+            setActiveUsers(users);
+        };
+
+        socket.on("active-users", handleActiveUsers);
+
+        return () => {
+            socket.off("active-users", handleActiveUsers);
+        };
+    }, []);
 
     // -----on--document---load---
     useEffect(() => {
         if (!location.state) return;
         const { username, DocumentID, newDocument } = location.state;
         if (!username || !DocumentID) return;
-        socket.once('load-doc', docString => {
+        socket.once("load-doc", (docString) => {
             const editor = editorRef.current?.getEditor();
             if (editor) {
                 setReadOnly(false);
@@ -41,9 +52,8 @@ function TextEditor() {
         socket.emit("joinRoom", {
             username,
             DocumentID,
-            newDocument
+            newDocument,
         });
-
     }, [location.state]);
 
     // -------receive--and---share---changes-------
@@ -54,10 +64,10 @@ function TextEditor() {
                 editor.updateContents(delta);
             }
         };
-        socket.on('receive-changes', handleReceiveChanges);
+        socket.on("receive-changes", handleReceiveChanges);
 
         return () => {
-            socket.off('receive-changes', handleReceiveChanges);
+            socket.off("receive-changes", handleReceiveChanges);
         };
     }, []);
     // ----save---document--on---change----
@@ -65,43 +75,46 @@ function TextEditor() {
         const intervel = setInterval(() => {
             const editor = editorRef.current?.getEditor();
             if (editor) {
-                JSON.stringify(editor.getContents())
-                socket.emit("save-document", JSON.stringify(editor.getContents()));
+                JSON.stringify(editor.getContents());
+                socket.emit(
+                    "save-document",
+                    JSON.stringify(editor.getContents())
+                );
             }
         }, [1000]);
         return () => {
             clearInterval(intervel);
-        }
-    }, [])
-
-
+        };
+    }, []);
 
     return (
-        <div className='textEditor-container'>
-            <User />
+        <div className="textEditor-container">
+            <User users={ activeUsers } />
             <ReactQuill
                 ref={editorRef}
-                className='textEditor'
+                className="textEditor"
                 value={editorValue}
                 onChange={handleEditorChange}
                 modules={{
-
                     toolbar: [
-                        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                        [{ 'font': [] }],
-                        ['bold', 'italic', 'underline', 'strike'],
-                        ['image', 'code-block'],
-                        [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
-                        [{ 'color': [] }, { 'background': [] }],
-                        [{ 'script': 'sub' }, { 'script': 'super' }],
-                        [{ 'align': [] }],
-                        [{ 'indent': '-1' }, { 'indent': '+1' }],
-                    ]
+                        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                        [{ font: [] }],
+                        ["bold", "italic", "underline", "strike"],
+                        ["image", "code-block"],
+                        [
+                            { list: "ordered" },
+                            { list: "bullet" },
+                            { list: "check" },
+                        ],
+                        [{ color: [] }, { background: [] }],
+                        [{ script: "sub" }, { script: "super" }],
+                        [{ align: [] }],
+                        [{ indent: "-1" }, { indent: "+1" }],
+                    ],
                 }}
                 theme="snow"
                 readOnly={readOnly}
             />
-
         </div>
     );
 }

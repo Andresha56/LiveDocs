@@ -1,42 +1,77 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListOutlinedIcon from '@mui/icons-material/ListOutlined';
-// import ClearIcon from '@mui/icons-material/Clear';
-const ListContainer = styled('div')({
-  width: '10%',
-  position: 'absolute',
-  top: '21px',
-  marginLeft: "20px",
-  zIndex:9999,
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemText from "@mui/material/ListItemText";
+import Avatar from "@mui/material/Avatar";
+import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
+
+const ListContainer = styled("div")({
+    width: "10%",
+    position: "absolute",
+    top: "21px",
+    marginLeft: "20px",
+    zIndex: 9999,
 });
 
-export default function User() {
-  const [open, setOpen] = React.useState(false);
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
+export default function User({ users = [] }) {
+    const [open, setOpen] = React.useState(false);
 
+    const toggleDrawer = () => {
+        setOpen(!open);
+    };
 
-  return (
-    <>
-      <ListContainer>
-        {open ?"" : <ListOutlinedIcon  cursor={'pointer'} sx={{color:"white"}} onClick={toggleDrawer}/>}
-      </ListContainer>
-      <Drawer anchor="left" open={open} onClose={toggleDrawer} PaperProps={{ style: { backgroundColor: '#202020' } }}> 
-        <div>
-          <List>
-            {['Drawer Item 1', 'Drawer Item 2', 'Drawer Item 3'].map((text, index) => (
-              <ListItem key={index}>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
-        </div>
-      </Drawer>
-    </>
-  );
+    return (
+        <>
+            <ListContainer>
+                {!open && (
+                    <ListOutlinedIcon
+                        sx={{ color: "white", cursor: "pointer" }}
+                        onClick={toggleDrawer}
+                    />
+                )}
+            </ListContainer>
+
+            <Drawer
+                anchor="left"
+                open={open}
+                onClose={toggleDrawer}
+                PaperProps={{
+                    sx: {
+                        width: 260,
+                        backgroundColor: "#202020",
+                        color: "#fff",
+                    },
+                }}
+            >
+                <List sx={{ px: 2 }}>
+                    {users.length === 0 ? (
+                        <ListItem>
+                            <ListItemText primary="No active users" />
+                        </ListItem>
+                    ) : (
+                        users.map((user, index) => (
+                            <ListItem key={index}>
+                                <ListItemAvatar>
+                                    <Avatar
+                                        sx={{
+                                            width: 28,
+                                            height: 28,
+                                            fontSize: 12,
+                                        }}
+                                        src={`https://api.dicebear.com/7.x/initials/svg?seed=${user}`}
+                                        alt={user}
+                                        sizes="xs"
+                                    />
+                                </ListItemAvatar>
+                                <ListItemText primary={user} />
+                            </ListItem>
+                        ))
+                    )}
+                </List>
+            </Drawer>
+        </>
+    );
 }

@@ -4,12 +4,14 @@ export const findOrCreateDoc = async (DocumentID, newDocument) => {
     try {
         const room = await Document.findById(DocumentID);
         if (room) {
-            console.log("room present!")
+            console.log("room present!");
             return room;
-        } 
-        else {
-            const initialValue = '';
-            return await Document.create({ _id: DocumentID, data: initialValue });  
+        } else {
+            const initialValue = "";
+            return await Document.create({
+                _id: DocumentID,
+                data: initialValue,
+            });
         }
     } catch (error) {
         console.error("Error in findOrCreateDoc:", error);
@@ -19,7 +21,9 @@ export const findOrCreateDoc = async (DocumentID, newDocument) => {
 
 export const findAndUpdate = async (DocumentID, newData) => {
     try {
-        const updatedDoc = await Document.findByIdAndUpdate(DocumentID, { data: newData });
+        const updatedDoc = await Document.findByIdAndUpdate(DocumentID, {
+            data: newData,
+        });
         return updatedDoc;
     } catch (error) {
         console.error("Error in findAndUpdate:", error);
@@ -27,8 +31,8 @@ export const findAndUpdate = async (DocumentID, newData) => {
     }
 };
 
-export const checkIsDocument=async(docId)=>{
-    const _id=docId;
-    const isDoc=await Document.findById(_id);
+export const checkIsDocument = async (docId) => {
+    const _id = docId;
+    const isDoc = await Document.findById(_id);
     return isDoc;
-}
+};

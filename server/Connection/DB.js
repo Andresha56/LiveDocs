@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
-const DB_URL='mongodb://localhost:27017';
-export const ConnectToDB=async()=>{
-    try{
-        await mongoose.connect(DB_URL,{
-            dbName:'google_docs',
-        })
-    }catch{
-        console.log('Connection fail!')
+
+export const ConnectToDB = async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log(" MongoDB connected");
+    } catch (error) {
+        console.error(" MongoDB connection failed:", error.message);
+        process.exit(1);
     }
-}
+};

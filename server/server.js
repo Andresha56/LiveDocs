@@ -1,18 +1,20 @@
 import express from "express";
 import { createServer } from "node:http";
-import { ConnectToDB } from "./connection/DB.js";
+import { ConnectToDB } from "./Connection/DB.js";
 import { Server } from "socket.io";
 import { findOrCreateDoc } from "./Controller/Document.js";
 import { findAndUpdate } from "./Controller/Document.js";
 import { checkIsDocument } from "./Controller/Document.js";
-
+import dotenv from "dotenv";
+dotenv.config();
 const app = express();
 const server = createServer(app);
+const PORT = process.env.PORT || 5000;
 
 ConnectToDB();
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: "*",
         methods: ["GET", "POST"],
     },
 });
@@ -70,6 +72,6 @@ io.on("connection", (socket) => {
     });
 });
 
-server.listen(4000, () => {
-    console.log("server running at http://localhost:4000");
+server.listen(PORT, () => {
+    console.log(`server running on port ${PORT}`);
 });

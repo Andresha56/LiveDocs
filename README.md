@@ -1,4 +1,4 @@
-# DocUnity
+# LiveDocs
 
 DocUnity is a simple  easy to use document creator that allows multiple users to collaborate in real-time.
 

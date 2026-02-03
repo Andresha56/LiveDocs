@@ -40,7 +40,7 @@ function Form() {
                 }
             });
         }
-    }, [isDocument, inputValues.Id]);
+    }, [isDocument, inputValues.Id, inputValues, navigate]);
     // ----handle-form-inputs---
     const handleUserInputs = (e) => {
         const { name, value } = e.target;

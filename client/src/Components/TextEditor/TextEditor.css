@@ -1,42 +1,354 @@
+/* =====================================================
+   THEME VARIABLES (Recommended Structure)
+===================================================== */
 
-.textEditor{
-    padding: 0 0 20px 0;
-    height: 80vh;
-    margin: auto;
+.theme-light {
+    --toolbar-icon-color: #1f2937;
 }
-.ql-container{
-    width: 90%;
-    margin: auto;
+
+.theme-dark {
+    --toolbar-icon-color: #ffffff;
 }
-.ql-editor * {
-    color: white;   
+
+/* =====================================================
+   Layout
+===================================================== */
+
+.textEditor-container {
+    min-height: 100vh;
+    background: var(--doc-bg-page-gradient);
+    display: flex;
+    flex-direction: column;
+    transition: background 0.25s ease;
 }
-.ql-container.ql-snow{
+
+/* =====================================================
+   Header
+===================================================== */
+
+.editor-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px 10px 12px;
+    background: var(--doc-bg-header);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--doc-border-light);
+    flex-shrink: 0;
+    gap: 16px;
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.editor-header-left,
+.editor-header-center,
+.editor-header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.editor-header-left {
+    min-width: 120px;
+}
+
+.editor-header-center {
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+}
+
+.editor-header-right {
+    min-width: 120px;
+    justify-content: flex-end;
+}
+
+.editor-header-brand {
+    color: var(--doc-text-primary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: -0.02em;
+}
+
+/* Header icon buttons */
+
+.header-icon-btn {
+    color: var(--doc-text-secondary);
+    padding: 8px;
+    border-radius: 10px;
+    transition:
+        color 0.2s ease,
+        background 0.2s ease;
+}
+
+.header-icon-btn:hover {
+    color: var(--doc-text-primary);
+    background: var(--doc-toolbar-hover);
+}
+
+/* Collaborator badge */
+
+.collaborators-btn {
+    position: relative;
+}
+
+.collaborators-count {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #fff;
+    background: var(--doc-accent);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Save status chip */
+
+.status-chip {
+    font-size: 0.7rem;
+    height: 28px;
     border: none;
 }
-.ql-toolbar.ql-snow{
-    border: none;
+
+.status-chip.saved {
+    color: var(--doc-text-secondary);
+    background: var(--doc-toolbar-hover);
+}
+
+.status-chip.saved .MuiChip-icon {
+    color: #4ade80;
+}
+
+.status-chip.saving {
+    color: var(--doc-text-primary);
+    background: var(--doc-toolbar-active);
+}
+
+.status-chip.saving .MuiChip-icon {
+    color: var(--doc-accent);
+}
+
+/* =====================================================
+   Paper Background
+===================================================== */
+
+.editor-paper {
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: radial-gradient(
+        ellipse 80% 50% at 50% 0%,
+        rgba(46, 143, 247, 0.04) 0%,
+        transparent 60%
+    );
+}
+
+/* Scrollbar */
+
+.editor-paper::-webkit-scrollbar {
+    width: 10px;
+}
+
+.editor-paper::-webkit-scrollbar-thumb {
+    background: var(--doc-scrollbar);
+    border-radius: 6px;
+}
+
+.editor-paper::-webkit-scrollbar-thumb:hover {
+    background: var(--doc-scrollbar-hover);
+}
+
+/* =====================================================
+   Editor Card
+===================================================== */
+
+.editor-box {
     width: 100%;
-    background-color: #252525;
-    padding: 20px 0px 20px 80px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+    max-width: 900px;
+    margin: 0 auto;
+    border-radius: 18px;
+    overflow: hidden;
+    margin-top: 20px;
+    background: var(--doc-bg-editor-box);
+    border: 1px solid var(--doc-border-light);
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.04),
+        0 8px 24px rgba(0, 0, 0, 0.06);
+    transition:
+        box-shadow 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.2s ease;
+}
+
+/* Hover lift */
+
+.editor-box:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.08),
+        0 18px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* Focus glow */
+
+.editor-box:focus-within {
+    border-color: var(--doc-accent);
+    box-shadow:
+        0 0 0 3px rgba(46, 143, 247, 0.12),
+        0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* =====================================================
+   Toolbar
+===================================================== */
+
+.ql-toolbar.ql-snow {
     position: sticky;
     top: 0;
-    z-index: 999;
-}
-    
-.ql-editor{
-    margin-top: 30px;
-}
-
-.ql-snow .ql-stroke {
-    stroke: #fbfafa;
+    z-index: 10;
+    background: var(--doc-bg-toolbar);
+    border: none;
+    border-bottom: 1px solid var(--doc-border);
+    padding: 10px 20px;
 }
 
-.ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options{
-    border-color: #2c2c2c;
-    background: #2c2c2c;
+/* Toolbar button styling */
+
+.ql-toolbar button {
+    border-radius: 6px;
+    transition: background 0.2s ease;
 }
 
+.ql-toolbar button:hover {
+    background: var(--doc-toolbar-hover);
+}
 
+.ql-toolbar button.ql-active {
+    background: var(--doc-toolbar-active);
+}
 
+/* =====================================================
+   Toolbar Icons (Theme Aware)
+===================================================== */
+
+.ql-toolbar .ql-stroke,
+.ql-toolbar .ql-fill,
+.ql-toolbar .ql-picker,
+.ql-toolbar .ql-picker-label {
+    transition:
+        stroke 0.2s ease,
+        fill 0.2s ease,
+        color 0.2s ease;
+}
+
+.ql-toolbar .ql-stroke {
+    stroke: var(--toolbar-icon-color);
+}
+
+.ql-toolbar .ql-fill {
+    fill: var(--toolbar-icon-color);
+}
+
+.ql-toolbar .ql-picker,
+.ql-toolbar .ql-picker-label {
+    color: var(--toolbar-icon-color);
+}
+
+/* Hover & Active Accent */
+
+.ql-toolbar button:hover .ql-stroke,
+.ql-toolbar button.ql-active .ql-stroke {
+    stroke: var(--doc-accent);
+}
+
+.ql-toolbar button:hover .ql-fill,
+.ql-toolbar button.ql-active .ql-fill {
+    fill: var(--doc-accent);
+}
+
+/* =====================================================
+   Editor Content
+===================================================== */
+
+.ql-container.ql-snow {
+    border: none;
+    background: var(--doc-bg-editor);
+}
+
+.ql-editor {
+    min-height: 70vh;
+    font-size: 1.08rem;
+    line-height: 1.85;
+    letter-spacing: 0.01em;
+    /* color: var(--doc-text-primary); */
+    font-family:
+        "Inter",
+        "Segoe UI",
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
+    font-weight: 400;
+    transition: color 0.25s ease;
+}
+
+/* Placeholder */
+
+.ql-editor.ql-blank::before {
+    color: var(--doc-text-muted);
+    font-style: normal;
+}
+
+/* Paragraph spacing */
+
+.ql-editor p {
+    margin-bottom: 1em;
+}
+
+/* Links */
+
+.ql-editor a {
+    color: var(--doc-link);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(94, 179, 246, 0.4);
+    transition:
+        color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.ql-editor a:hover {
+    color: var(--doc-link-hover);
+    border-bottom-color: rgba(126, 196, 248, 0.6);
+}
+
+/* Alignment */
+
+.ql-editor .ql-align-center {
+    text-align: center;
+}
+
+.ql-editor .ql-align-right {
+    text-align: right;
+}
+
+.ql-editor .ql-align-justify {
+    text-align: justify;
+}
+
+/* Selection */
+
+.ql-editor ::selection {
+    background: var(--doc-selection);
+}
+/* .ql-editor * {
+    color: inherit;
+} */

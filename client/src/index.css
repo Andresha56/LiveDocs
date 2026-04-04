@@ -1,13 +1,112 @@
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #252525;
+/* Theme variables: dark (default) */
+.theme-dark,
+:root {
+    --doc-bg-page: #151517;
+    --doc-bg-page-gradient: linear-gradient(
+        165deg,
+        #151517 0%,
+        #1a1a1d 50%,
+        #161618 100%
+    );
+    --doc-bg-header: rgba(22, 22, 24, 0.85);
+    --doc-bg-editor-box: #232326;
+    --doc-bg-toolbar: #252528;
+    --doc-bg-editor: #1e1e21;
+    --doc-text-primary: rgba(255, 255, 255, 0.92);
+    --doc-text-secondary: rgba(255, 255, 255, 0.5);
+    --doc-text-muted: rgba(255, 255, 255, 0.35);
+    --doc-border: rgba(255, 255, 255, 0.08);
+    --doc-border-light: rgba(255, 255, 255, 0.06);
+    --doc-toolbar-divider: rgba(255, 255, 255, 0.1);
+    --doc-toolbar-hover: rgba(255, 255, 255, 0.08);
+    --doc-toolbar-active: rgba(46, 143, 247, 0.18);
+    --doc-accent: #2e8ff7;
+    --doc-link: #5eb3f6;
+    --doc-link-hover: #7ec4f8;
+    --doc-scrollbar: rgba(255, 255, 255, 0.12);
+    --doc-scrollbar-hover: rgba(255, 255, 255, 0.18);
+    --doc-form-bg: #222222;
+    --doc-form-input-bg: rgba(255, 255, 255, 0.05);
+    --doc-form-text: #fff;
+    --doc-form-placeholder: rgba(255, 255, 255, 0.4);
+    --doc-form-border: rgba(255, 255, 255, 0.12);
+    --doc-quill-stroke: rgba(255, 255, 255, 0.28);
+    --doc-quill-fill: rgba(255, 255, 255, 0.5);
+    --doc-quill-picker-bg: #2a2a2e;
+    --doc-selection: rgba(46, 143, 247, 0.35);
+    --doc-drawer-bg: #1a1a1a;
+    --doc-drawer-border: rgba(255, 255, 255, 0.06);
 }
 
+/* Theme variables: light */
+.theme-light {
+    --doc-bg-page: #f5f5f7;
+    --doc-bg-page-gradient: linear-gradient(
+        165deg,
+        #f8f8fa 0%,
+        #f0f0f4 50%,
+        #e8e8ec 100%
+    );
+    --doc-bg-header: rgba(255, 255, 255, 0.9);
+    --doc-bg-editor-box: #ffffff;
+    --doc-bg-toolbar: #fafafa;
+    --doc-bg-editor: #ffffff;
+    --doc-text-primary: rgba(0, 0, 0, 0.88);
+    --doc-text-secondary: rgba(0, 0, 0, 0.55);
+    --doc-text-muted: rgba(0, 0, 0, 0.4);
+    --doc-border: rgba(0, 0, 0, 0.1);
+    --doc-border-light: rgba(0, 0, 0, 0.06);
+    --doc-toolbar-divider: rgba(0, 0, 0, 0.12);
+    --doc-toolbar-hover: rgba(0, 0, 0, 0.06);
+    --doc-toolbar-active: rgba(46, 143, 247, 0.12);
+    --doc-accent: #1976d2;
+    --doc-link: #1565c0;
+    --doc-link-hover: #0d47a1;
+    --doc-scrollbar: rgba(0, 0, 0, 0.2);
+    --doc-scrollbar-hover: rgba(0, 0, 0, 0.35);
+    --doc-form-bg: #ffffff;
+    --doc-form-input-bg: #f5f5f5;
+    --doc-form-text: #1a1a1a;
+    --doc-form-placeholder: rgba(0, 0, 0, 0.45);
+    --doc-form-border: rgba(0, 0, 0, 0.2);
+    --doc-quill-stroke: rgba(0, 0, 0, 0.75);
+    --doc-quill-fill: rgba(0, 0, 0, 0.85);
+    --doc-quill-picker-bg: #ffffff;
+    --doc-selection: rgba(46, 143, 247, 0.25);
+    --doc-drawer-bg: #fafafa;
+    --doc-drawer-border: rgba(0, 0, 0, 0.08);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--doc-bg-page);
+    transition: background-color 0.25s ease;
+}
 
 ::-webkit-scrollbar {
-  width: 3px;
+    width: 3px;
+    height: 3px;
 }
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
 ::-webkit-scrollbar-thumb {
-  background: #4f4f4f;
+    background: var(--doc-scrollbar);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--doc-scrollbar-hover);
+}
+
+/* Drawer follows theme */
+.app .MuiDrawer-paper {
+    background-color: var(--doc-drawer-bg) !important;
+    border-left: 1px solid var(--doc-drawer-border) !important;
+    transition:
+        background-color 0.25s ease,
+        border-color 0.25s ease;
 }

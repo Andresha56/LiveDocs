@@ -8,6 +8,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import SnackBar from "./SnackBar/SnakBar";
 import { useNavigate } from "react-router-dom";
 import { socket } from "../../Socket";
+
 const InitialValues = {
     username: "",
     Id: "",
@@ -21,6 +22,7 @@ function Form() {
     const [inputValues, setInputValues] = useState(InitialValues);
     const [formErrors, setFormErrors] = useState({});
     const [isDocument, setIsDocument] = useState(null);
+    // const { theme, toggleTheme } = useTheme();
     const navigate = useNavigate();
     useEffect(() => {
         if (isDocument) {
